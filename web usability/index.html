@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usability dalam Interaksi Manusia dan Komputer (IMK/HCI)</title>
+
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* ==========================================
+       1. VARIABLES & BASE STYLES
+       ========================================== */
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #eff6ff;
+      --accent: #0f172a;
+      --text-main: #334155;
+      --text-muted: #64748b;
+      --bg-body: #f8fafc;
+      --bg-card: #ffffff;
+      --border-color: #e2e8f0;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.7;
+      padding-top: 80px;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--accent);
+      line-height: 1.3;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    a:hover {
+      color: var(--primary-dark);
+    }
+
+    /* ==========================================
+       2. HEADER & NAVIGATION
+       ========================================== */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+      z-index: 1000;
+      height: 70px;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo i {
+      color: var(--primary);
+    }
+
+    .nav-tag {
+      background-color: var(--primary-light);
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    /* ==========================================
+       3. LAYOUT (CONTAINER & SIDEBAR)
+       ========================================== */
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 40px;
+    }
+
+    @media (max-width: 992px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        display: none;
+      }
+    }
+
+    /* ==========================================
+       4. HERO BANNER
+       ========================================== */
+    .hero-card {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      color: white;
+      padding: 40px;
+      border-radius: var(--radius-lg);
+      margin-bottom: 40px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(37,99,235,0.2) 0%, rgba(255,255,255,0) 70%);
+      border-radius: 50%;
+    }
+
+    .hero-category {
+      color: #60a5fa;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .hero-card h1 {
+      color: white;
+      font-size: 2.25rem;
+      margin-bottom: 16px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      color: #94a3b8;
+      font-size: 0.9rem;
+      align-items: center;
+    }
+
+    .hero-meta span, .hero-meta a {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #94a3b8;
+    }
+
+    .hero-meta a:hover {
+      color: #60a5fa;
+    }
+
+    /* ==========================================
+       5. CONTENT SECTIONS
+       ========================================== */
+    .content-section {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      margin-bottom: 32px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow);
+      scroll-margin-top: 90px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--primary-light);
+    }
+
+    .section-number {
+      background: var(--primary-light);
+      color: var(--primary);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .section-header h2 {
+      font-size: 1.5rem;
+    }
+
+    .content-section p {
+      margin-bottom: 16px;
+      color: var(--text-main);
+    }
+
+    /* Key Benefits Grid */
+    .benefit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .benefit-card {
+      background: var(--bg-body);
+      border-left: 4px solid var(--primary);
+      padding: 16px 20px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+
+    .benefit-card h4 {
+      margin-bottom: 6px;
+      font-size: 1rem;
+    }
+
+    /* Usability Table */
+    .table-container {
+      overflow-x: auto;
+      margin: 20px 0;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      padding: 14px 18px;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    td {
+      padding: 14px 18px;
+      border-top: 1px solid var(--border-color);
+      font-size: 0.95rem;
+    }
+
+    tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+
+    /* Process Steps Timeline */
+    .steps-list {
+      list-style: none;
+      position: relative;
+      padding-left: 20px;
+      margin-top: 20px;
+    }
+
+    .steps-list::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      bottom: 10px;
+      width: 2px;
+      background: var(--border-color);
+    }
+
+    .step-item {
+      position: relative;
+      margin-bottom: 24px;
+      padding-left: 24px;
+    }
+
+    .step-item::before {
+      content: '';
+      position: absolute;
+      left: -25px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary);
+      border: 3px solid white;
+      box-shadow: 0 0 0 2px var(--primary);
+    }
+
+    .step-item h4 {
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+    }
+
+    /* Sub-methods Styling */
+    .methods-group {
+      margin-top: 16px;
+    }
+
+    .method-card {
+      background: #f1f5f9;
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .method-card h4 {
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Reference Box */
+    .reference-box {
+      margin-top: 24px;
+      padding: 16px 20px;
+      background-color: #f8fafc;
+      border: 1px dashed var(--border-color);
+      border-radius: var(--radius-md);
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .reference-box h5 {
+      color: var(--accent);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .reference-box ul {
+      list-style: none;
+    }
+
+    .reference-box li {
+      margin-bottom: 8px;
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .reference-box li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+    }
+
+    /* Alert / Note Box */
+    .note-box {
+      background: #fefce8;
+      border: 1px solid #fef08a;
+      border-left: 4px solid #eab308;
+      padding: 16px 20px;
+      border-radius: var(--radius-sm);
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #713f12;
+    }
+
+    /* ==========================================
+       6. SIDEBAR (TABLE OF CONTENTS)
+       ========================================== */
+    .sidebar {
+      position: sticky;
+      top: 100px;
+      height: fit-content;
+    }
+
+    .toc-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .toc-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toc-links {
+      list-style: none;
+    }
+
+    .toc-links li {
+      margin-bottom: 12px;
+    }
+
+    .toc-links a {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      display: block;
+      line-height: 1.4;
+    }
+
+    .toc-links a:hover {
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    /* ==========================================
+       7. FOOTER
+       ========================================== */
+    footer {
+      background: var(--accent);
+      color: #94a3b8;
+      padding: 40px 0;
+      margin-top: 60px;
+      text-align: center;
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    footer p {
+      margin-bottom: 8px;
+    }
+
+    .footer-author {
+      margin-top: 12px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-author a {
+      color: #60a5fa;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .footer-author a:hover {
+      color: #93c5fd;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER / NAVBAR -->
+  <header>
+    <div class="nav-container">
+      <div class="logo">
+        <i class="fa-solid fa-desktop"></i>
+        <span>IMK Blog</span>
+      </div>
+      <span class="nav-tag">Interaksi Manusia & Komputer</span>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <div class="container">
+
+    <!-- MAIN ARTICLE CONTENT -->
+    <main>
+
+      <!-- HERO BANNER -->
+      <div class="hero-card">
+        <span class="hero-category">Materi IMK / HCI</span>
+        <h1>Usability dalam Interaksi Manusia dan Komputer</h1>
+        <div class="hero-meta">
+          <span><i class="fa-regular fa-user"></i> Penulis: Muhammad Gibran</span>
+          <a href="mailto:muhd.gibran.season17@gmail.com"><i class="fa-regular fa-envelope"></i> muhd.gibran.season17@gmail.com</a>
+          <a href="https://instagram.com/muhammad_gibran0111" target="_blank"><i class="fa-brands fa-instagram"></i> @muhammad_gibran0111</a>
+        </div>
+      </div>
+
+      <!-- SECTION 1 -->
+      <section id="bagian-1" class="content-section">
+        <div class="section-header">
+          <div class="section-number">1</div>
+          <h2>Pengertian Usability dalam IMK</h2>
+        </div>
+        <p><strong>Usability (kebergunaan)</strong> adalah ukuran seberapa baik sebuah sistem interaktif dapat digunakan oleh pengguna tertentu untuk mencapai tujuan tertentu dalam konteks penggunaan tertentu.</p>
+        <p>Standar <strong>ISO 9241-11</strong> mendefinisikannya melalui tiga komponen utama:</p>
+        <div class="benefit-grid" style="margin-bottom: 20px;">
+          <div class="benefit-card">
+            <h4>Efektivitas</h4>
+            <p style="font-size: 0.88rem; margin: 0; color: var(--text-muted);">Ketepatan dan kelengkapan pencapaian tujuan pengguna.</p>
+          </div>
+          <div class="benefit-card">
+            <h4>Efisiensi</h4>
+            <p style="font-size: 0.88rem; margin: 0; color: var(--text-muted);">Sumber daya yang dikeluarkan untuk mencapai tujuan tersebut.</p>
+          </div>
+          <div class="benefit-card">
+            <h4>Kepuasan</h4>
+            <p style="font-size: 0.88rem; margin: 0; color: var(--text-muted);">Kenyamanan dan sikap positif pengguna terhadap sistem.</p>
+          </div>
+        </div>
+        <p>Jakob Nielsen memandang usability sebagai atribut kualitas yang menilai seberapa mudah antarmuka digunakan, sekaligus merujuk pada metode untuk meningkatkan kemudahan itu selama proses desain berlangsung.</p>
+
+        <div class="reference-box">
+          <h5><i class="fa-solid fa-book"></i> Referensi</h5>
+          <ul>
+            <li>Abran, A., Khelifi, A., Suryn, W., & Seffah, A. (2003). Usability meanings and interpretations in ISO standards. <em>Software Quality Journal</em>, 11(4), 325–338.</li>
+            <li>Bevan, N. (1995). Measuring usability as quality of use. <em>Software Quality Journal</em>, 4(2), 115–130.</li>
+            <li>Bevan, N., Carter, J., & Harker, S. (2015). ISO 9241-11 revised: What have we learnt about usability since 1998? <em>HCI International 2015</em>, LNCS 9169, 143–151.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 2 -->
+      <section id="bagian-2" class="content-section">
+        <div class="section-header">
+          <div class="section-number">2</div>
+          <h2>Mengapa Usability Penting?</h2>
+        </div>
+        <p>Penerapan usability membawa dampak signifikan pada efisiensi pengembangan dan pengalaman pengguna secara keseluruhan:</p>
+        
+        <div class="benefit-grid">
+          <div class="benefit-card">
+            <h4><i class="fa-solid fa-bolt" style="color: var(--primary);"></i> Produktivitas Tinggi</h4>
+            <p style="font-size: 0.88rem; margin: 0;">Antarmuka yang mudah dipahami mempercepat penyelesaian tugas dan mengurangi <em>human error</em>.</p>
+          </div>
+          <div class="benefit-card">
+            <h4><i class="fa-solid fa-piggy-bank" style="color: var(--primary);"></i> Menurunkan Biaya</h4>
+            <p style="font-size: 0.88rem; margin: 0;">Masalah yang ditemukan sejak awal jauh lebih murah diperbaiki daripada setelah dirilis. Biaya pelatihan dan dukungan juga berkurang.</p>
+          </div>
+          <div class="benefit-card">
+            <h4><i class="fa-solid fa-face-smile" style="color: var(--primary);"></i> Kepuasan Pengguna</h4>
+            <p style="font-size: 0.88rem; margin: 0;">Sistem yang sulit digunakan cenderung ditinggalkan, meskipun fiturnya sangat lengkap.</p>
+          </div>
+          <div class="benefit-card">
+            <h4><i class="fa-solid fa-trophy" style="color: var(--primary);"></i> Keunggulan Kompetitif</h4>
+            <p style="font-size: 0.88rem; margin: 0;">Pada produk dengan fungsi serupa, kemudahan penggunaan menjadi pembeda utama di pasar.</p>
+          </div>
+        </div>
+        
+        <p style="margin-top: 20px;">Usability juga menjadi dasar pendekatan <strong>User-Centered Design (UCD)</strong>. Gould & Lewis menekankan fokus awal pada pengguna dan tugasnya, pengukuran empiris, serta desain iteratif.</p>
+
+        <div class="reference-box">
+          <h5><i class="fa-solid fa-book"></i> Referensi</h5>
+          <ul>
+            <li>Gould, J. D., & Lewis, C. (1985). Designing for usability: Key principles and what designers think. <em>Communications of the ACM</em>, 28(3), 300–311.</li>
+            <li>Karat, C.-M. (1997). Cost-justifying usability engineering in the software life cycle. Dalam M. Helander et al. (Eds.), <em>Handbook of Human-Computer Interaction</em> (2nd ed.). Elsevier.</li>
+            <li>Lewis, J. R. (2014). Usability: Lessons learned… and yet to be learned. <em>International Journal of Human-Computer Interaction</em>, 30(9), 663–684.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 3 -->
+      <section id="bagian-3" class="content-section">
+        <div class="section-header">
+          <div class="section-number">3</div>
+          <h2>Atribut Usability</h2>
+        </div>
+        <p>Menurut Jakob Nielsen, usability terdiri dari 5 atribut utama:</p>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Atribut</th>
+                <th>Penjelasan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Learnability</strong></td>
+                <td>Seberapa mudah pengguna baru menyelesaikan tugas dasar pada pemakaian pertama kali.</td>
+              </tr>
+              <tr>
+                <td><strong>Efficiency</strong></td>
+                <td>Seberapa cepat pengguna yang sudah belajar dapat menyelesaikan tugas mereka.</td>
+              </tr>
+              <tr>
+                <td><strong>Memorability</strong></td>
+                <td>Seberapa mudah pengguna kembali mahir setelah lama tidak menggunakan sistem.</td>
+              </tr>
+              <tr>
+                <td><strong>Errors</strong></td>
+                <td>Jumlah dan tingkat keparahan kesalahan, serta kemudahan pemulihan dari kesalahan tersebut.</td>
+              </tr>
+              <tr>
+                <td><strong>Satisfaction</strong></td>
+                <td>Seberapa menyenangkan dan memuaskan sistem saat digunakan oleh pengguna.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>Atribut-atribut ini sejalan dengan tiga komponen ISO 9241-11 (efektivitas, efisiensi, kepuasan). Seffah et al. mengonsolidasikan berbagai standar dan model menjadi <strong>Model QUIM</strong> yang berisi 10 faktor (seperti <em>productivity, safety, trustfulness, accessibility</em>) yang dirinci menjadi 26 kriteria.</p>
+
+        <div class="reference-box">
+          <h5><i class="fa-solid fa-book"></i> Referensi</h5>
+          <ul>
+            <li>Seffah, A., Donyaee, M., Kline, R. B., & Padda, H. K. (2006). Usability measurement and metrics: A consolidated model. <em>Software Quality Journal</em>, 14(2), 159–178.</li>
+            <li>Abran, A., et al. (2003). Usability meanings and interpretations in ISO standards. <em>Software Quality Journal</em>, 11(4), 325–338.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 4 -->
+      <section id="bagian-4" class="content-section">
+        <div class="section-header">
+          <div class="section-number">4</div>
+          <h2>Langkah-Langkah Usability</h2>
+        </div>
+        <p>Secara umum, penerapan usability dalam pengembangan sistem mengikuti urutan alur berikut:</p>
+
+        <ul class="steps-list">
+          <li class="step-item">
+            <h4>1. Mengenali pengguna dan konteks penggunaan</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Identifikasi karakteristik pengguna, tugas yang akan dilakukan, dan lingkungan kerja.</p>
+          </li>
+          <li class="step-item">
+            <h4>2. Menetapkan tujuan usability</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Tentukan target terukur, misalnya waktu penyelesaian tugas atau tingkat kesalahan maksimum.</p>
+          </li>
+          <li class="step-item">
+            <h4>3. Merancang dan membuat prototipe</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Mulai dari sketsa kasar, wireframe, hingga prototipe interaktif tinggi.</p>
+          </li>
+          <li class="step-item">
+            <h4>4. Mengevaluasi usability</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Gunakan heuristic evaluation, cognitive walkthrough, atau usability testing bersama pengguna.</p>
+          </li>
+          <li class="step-item">
+            <h4>5. Menganalisis hasil dan memperbaiki desain</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Prioritaskan masalah berdasarkan tingkat keparahannya untuk segera diperbaiki.</p>
+          </li>
+          <li class="step-item">
+            <h4>6. Mengulangi (Iterasi)</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Evaluasi dan perbaikan diulang secara berkelanjutan hingga tujuan usability tercapai.</p>
+          </li>
+          <li class="step-item">
+            <h4>7. Memantau setelah peluncuran</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Kumpulkan umpan balik dan data penggunaan nyata setelah sistem dirilis.</p>
+          </li>
+        </ul>
+
+        <div class="reference-box">
+          <h5><i class="fa-solid fa-book"></i> Referensi</h5>
+          <ul>
+            <li>Gould, J. D., & Lewis, C. (1985). Designing for usability: Key principles and what designers think. <em>Communications of the ACM</em>, 28(3), 300–311.</li>
+            <li>Nielsen, J., & Molich, R. (1990). Heuristic evaluation of user interfaces. <em>Proceedings of ACM CHI '90</em>, 249–256.</li>
+            <li>Nielsen, J., & Landauer, T. K. (1993). A mathematical model of the finding of usability problems. <em>Proceedings of ACM INTERCHI '93</em>, 206–213.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 5 -->
+      <section id="bagian-5" class="content-section">
+        <div class="section-header">
+          <div class="section-number">5</div>
+          <h2>Metode Pengukuran Rekayasa Usability</h2>
+        </div>
+        
+        <div class="methods-group">
+          <div class="method-card">
+            <h4><i class="fa-solid fa-chart-line"></i> a. Pengukuran Berbasis Kinerja (Objektif)</h4>
+            <p style="font-size: 0.9rem;">Mengukur <em>task completion rate</em>, <em>time on task</em>, jumlah kesalahan, serta jumlah klik/langkah. Metode ini selaras dengan komponen efektivitas dan efisiensi ISO.</p>
+          </div>
+
+          <div class="method-card">
+            <h4><i class="fa-solid fa-comments"></i> b. Pengukuran Berbasis Persepsi (Subjektif)</h4>
+            <p style="font-size: 0.9rem;">Menggunakan kuesioner baku untuk mengukur kepuasan pengguna:</p>
+            <ul style="padding-left: 20px; font-size: 0.9rem; margin-top: 8px;">
+              <li><strong>SUS (System Usability Scale):</strong> 10 pernyataan dengan skor 0–100.</li>
+              <li><strong>CSUQ / PSSUQ:</strong> Kuesioner kepuasan penggunaan dari IBM.</li>
+              <li><strong>QUIS:</strong> Questionnaire for User Interaction Satisfaction.</li>
+            </ul>
+          </div>
+
+          <div class="method-card">
+            <h4><i class="fa-solid fa-magnifying-glass"></i> c. Metode Inspeksi (Ahli)</h4>
+            <ul style="padding-left: 20px; font-size: 0.9rem;">
+              <li><strong>Heuristic Evaluation:</strong> Evaluasi oleh ahli berdasarkan prinsip-prinsip heuristik.</li>
+              <li><strong>Cognitive Walkthrough:</strong> Menelusuri langkah-langkah tugas dari sudut pandang pengguna baru.</li>
+            </ul>
+          </div>
+
+          <div class="method-card">
+            <h4><i class="fa-solid fa-users"></i> d. Metode Pengujian dengan Pengguna</h4>
+            <p style="font-size: 0.9rem;">Meliputi <em>usability testing</em> langsung, <em>think-aloud protocol</em>, observasi perilaku pengguna, dan wawancara mendalam.</p>
+          </div>
+        </div>
+
+        <p style="margin-top: 16px;">Penelitian Frøkjær dkk. menunjukkan bahwa efektivitas, efisiensi, dan kepuasan <strong>tidak selalu berkorelasi langsung</strong>. Oleh karena itu, ketiganya sebaiknya diukur secara terpisah.</p>
+
+        <div class="reference-box">
+          <h5><i class="fa-solid fa-book"></i> Referensi</h5>
+          <ul>
+            <li>Hornbæk, K. (2006). Current practice in measuring usability: Challenges to usability studies and research. <em>International Journal of Human-Computer Studies</em>, 64(2), 79–102.</li>
+            <li>Frøkjær, E., Hertzum, M., & Hornbæk, K. (2000). Measuring usability: Are effectiveness, efficiency, and satisfaction really correlated? <em>Proceedings of ACM CHI 2000</em>, 345–352.</li>
+            <li>Bangor, A., Kortum, P. T., & Miller, J. T. (2008). An empirical evaluation of the System Usability Scale. <em>International Journal of Human-Computer Interaction</em>, 24(6), 574–594.</li>
+            <li>Lewis, J. R. (1995). IBM computer usability satisfaction questionnaires: Psychometric evaluation and instructions for use. <em>International Journal of Human-Computer Interaction</em>, 7(1), 57–78.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 6 -->
+      <section id="bagian-6" class="content-section">
+        <div class="section-header">
+          <div class="section-number">6</div>
+          <h2>Siklus Hidup Usability (Usability Engineering Life Cycle)</h2>
+        </div>
+        <p>Jakob Nielsen mengusulkan siklus hidup rekayasa usability yang terintegrasi penuh dalam pengembangan perangkat lunak:</p>
+
+        <ol style="padding-left: 20px; font-size: 0.95rem; line-height: 1.8;">
+          <li><strong>Know the user:</strong> Analisis karakteristik pengguna, tugas, dan studi lapangan.</li>
+          <li><strong>Competitive analysis:</strong> Membandingkan antarmuka dengan produk sejenis.</li>
+          <li><strong>Setting usability goals:</strong> Menetapkan target usability yang terukur.</li>
+          <li><strong>Parallel design:</strong> Beberapa desainer membuat alternatif desain secara independen.</li>
+          <li><strong>Participatory design:</strong> Melibatkan perwakilan pengguna langsung dalam proses rancangan.</li>
+          <li><strong>Coordinated design of the total interface:</strong> Menjaga konsistensi di seluruh tampilan antarmuka.</li>
+          <li><strong>Apply guidelines and heuristic evaluation:</strong> Menerapkan pedoman umum dan evaluasi heuristik.</li>
+          <li><strong>Prototyping:</strong> Membuat prototipe cepat untuk diuji lebih awal.</li>
+          <li><strong>Empirical testing:</strong> Pengujian langsung bersama pengguna target.</li>
+          <li><strong>Iterative design:</strong> Perbaikan berulang berdasarkan hasil temuan pengujian.</li>
+          <li><strong>Collect feedback from field use:</strong> Mengumpulkan umpan balik setelah sistem digunakan di lingkungan nyata.</li>
+        </ol>
+
+        <p style="margin-top: 16px;">Pendekatan ini sejalan dengan siklus <em>Human-Centred Design</em> pada <strong>ISO 9241-210</strong>: memahami konteks, menentukan kebutuhan, membuat solusi desain, mengevaluasi, lalu mengulang.</p>
+
+        <div class="reference-box">
+          <h5><i class="fa-solid fa-book"></i> Referensi</h5>
+          <ul>
+            <li>Nielsen, J. (1992). The usability engineering life cycle. <em>IEEE Computer</em>, 25(3), 12–22.</li>
+            <li>Gould, J. D., & Lewis, C. (1985). Designing for usability: Key principles and what designers think. <em>Communications of the ACM</em>, 28(3), 300–311.</li>
+            <li>Mayhew, D. J. (1999). <em>The Usability Engineering Lifecycle: A Practitioner's Handbook for User Interface Design</em>. Morgan Kaufmann.</li>
+          </ul>
+        </div>
+
+        <div class="note-box">
+          <i class="fa-solid fa-triangle-exclamation"></i> <strong>Catatan:</strong> Sebelum dikutip untuk tugas akademik, sebaiknya verifikasi detail referensi (volume, halaman, DOI) melalui Google Scholar atau situs penerbit, lalu sesuaikan format sitasi dengan pedoman kampus Anda (APA, IEEE, dll.).
+        </div>
+      </section>
+
+    </main>
+
+    <!-- SIDEBAR / TABLE OF CONTENTS -->
+    <aside class="sidebar">
+      <div class="toc-card">
+        <div class="toc-title">
+          <i class="fa-solid fa-list-ul"></i>
+          <span>Daftar Isi</span>
+        </div>
+        <ul class="toc-links">
+          <li><a href="#bagian-1">1. Pengertian Usability</a></li>
+          <li><a href="#bagian-2">2. Mengapa Usability Penting</a></li>
+          <li><a href="#bagian-3">3. Atribut Usability</a></li>
+          <li><a href="#bagian-4">4. Langkah-Langkah Usability</a></li>
+          <li><a href="#bagian-5">5. Metode Pengukuran</a></li>
+          <li><a href="#bagian-6">6. Siklus Hidup Usability</a></li>
+        </ul>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; Blog IMK & Usability Design. Dibuat oleh <strong>Muhd Gibran</strong> untuk tujuan edukasi dan pembelajaran.</p>
+    <div class="footer-author">
+      <a href="mailto:muhd.gibran.season17@gmail.com"><i class="fa-regular fa-envelope"></i> muhd.gibran.season17@gmail.com</a>
+      <a href="https://instagram.com/muhammad_gibran0111" target="_blank"><i class="fa-brands fa-instagram"></i> @muhammad_gibran0111</a>
+    </div>
+  </footer>
+
+</body>
+</html>
